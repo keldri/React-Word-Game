@@ -1,0 +1,38 @@
+import Guess from "./Guess/Guess"
+
+Game:
+
+The Game Component 
+- Picks a random word from 'data.js' and uses `sample()` from utils.js to generate a random word on page load.
+- The Game Component renders the GuessInput component
+
+The GuessInput Component
+- Renders a form with a text input for the user to enter a 5 letter word. 
+- When the user enters characters, this triggers the onChange event which declares a variable `nextGuess` and sets it's value to the user's input (uppercased). 
+- The onChange event also updates the state of tentativeGuess to the value of `nextGuess`
+
+- When the user presses enter, `handleSubmit()` is called 
+- `handleSubmit()` 
+    - Prevents the form from being submitted.
+    - Instead, `handleSubmit()` calls `handleSubmitGuess()` and clears the input.
+
+`handleSubmitGuess()` 
+- is a function passed down from Game component via props
+- It takes the value of the "guess" and adds it to `nextGuesses[]` 
+- Then it updates the state of `guessess` to the value of `nextGuesses[]`.
+- It then checks the user's guest to see if it matches the answer and updates the state of `gameStatus` to "won" or "lost". 
+    - If `gameStatus` is "won" the WonBanner component is rendered with the `numOfGuesses` it took the user to win.
+    - If `gameStatus` is "lost" the LostBanner component is rendered with the true answer.
+
+The GuessResults Component
+- The GuessResults Component is passed the `guesses` and `answer` props from the Game Component.
+- It maps through each guess (up to 6 guesses which is capped by `NUM_OF_GUESSES_ALLOWED` from constants.js ) and outputs a Guess Component for each guess. 
+
+The Guess Component
+- The Guess Component compares the value of guess with the answer using the `CheckGuess()` provided by Gituhub from the `game-helpers.js`.
+- Next, it renders a Cell Component for each of the guesses. It also renders cells for each try regardless if there's a value. 
+
+The Cell Component
+ - The Cell Component takes in `letter` and `status` props from `game-helpers.js`to provide the status for each letter based on the result provided from checkGuess function.
+ - A new variable is created for `className`. If a status exists, the value of  `className` is set to `cell` and `status`. Otherwise, the value is set to only `cell`. This is then used as the className value when the Cell Component returns a span for each cell with or without a letter. These classes determine whether or not the cell is green to indicate a correct letter and placement,  yellow to indicate correct letter but incorrect placement, or grey to indicate neither letter or placement are correct.  
+
